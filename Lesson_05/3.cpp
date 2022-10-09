@@ -2,7 +2,6 @@
 
 int main()
 {
-    setlocale(LC_ALL, "Russiаn");
     int n; std::cout << "n: "; std::cin >> n;
     n *= 2;
     for (int i = n/4; i >= 0; --i) {
