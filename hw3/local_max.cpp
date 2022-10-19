@@ -6,14 +6,13 @@ int main()
     int arr[N]; 
     for (int i = 0; i < N; ++i) std::cin >> arr[i];
 
-    int left = arr[0], right = arr[2];
-    for (int i = 1; i < N - 1; ++i) {
-        if (left < arr[i] && arr[i] > right) {
-            std::cout << "local max idx: " << i;
+    for (int curr_idx = 1; curr_idx < (N - 1); ++curr_idx) { // элемент посередине дойдёт до предпоследнего --> правый -- до последнего
+        int left = arr[curr_idx - 1], curr = arr[curr_idx], right = arr[curr_idx + 1];
+        if (left < curr && curr > right) {
+            std::cout << "local max index: " << curr_idx << std::endl;
             break;
         }
-        left = arr[i];
-        right = arr[i + 2];
     }
+
     return 0;
 }
