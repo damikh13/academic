@@ -22,7 +22,7 @@ void cyclic_shift_to_right(int sz, int* arr, int by=1)
     }
 }
 
-void print_array(int sz, int* arr)
+void print_array(int sz, const int arr[])
 {
     for (int i = 0; i < sz; ++i) {
         std::cout << arr[i] << ' ';

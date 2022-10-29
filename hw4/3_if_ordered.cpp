@@ -32,7 +32,7 @@ void check_if_ordered(int sz, int* arr)
     else std::cout << "descending" << std::endl;
 }
 
-void print_array(int sz, int* arr)
+void print_array(int sz, const int arr[])
 {
     for (int i = 0; i < sz; ++i) {
         std::cout << arr[i] << ' ';

@@ -1,5 +1,14 @@
 #include <iostream>
 
+void fill_2d_array_normally(int arr[], int r, int c)
+{
+    for (int i = 0; i < r; ++i) {
+        for (int j = 0; j < c; ++j) {
+            arr[i * c + j] = i * c + j + 1;
+        }
+    }
+}
+
 void fill_2d_array_with_random_numbers(int arr[], int r, int c)
 {
     srand(time(0));
@@ -11,7 +20,7 @@ void fill_2d_array_with_random_numbers(int arr[], int r, int c)
 }
 
 
-void print_2d_array(int arr[], int r, int c)
+void print_2d_array(const int arr[], int r, int c)
 {
     srand(time(0));
     for (int i = 0; i < r; ++i) {
@@ -29,6 +38,6 @@ int main()
     std::cout << "M: "; std::cin >> M;
 
     int arr[N][M]{};
-    fill_2d_array_with_random_numbers(reinterpret_cast<int*>(arr), N, M);
+    fill_2d_array_normally(reinterpret_cast<int*>(arr), N, M);
     print_2d_array(reinterpret_cast<int*>(arr), N, M);
 }

@@ -7,7 +7,7 @@ int* make_random_array_of_size(int N, int* arr)
     return arr;
 }
 
-void print_array(int sz, int* arr)
+void print_array(int sz, const int arr[])
 {
     for (int i = 0; i < sz; ++i) {
         std::cout << arr[i] << ' ';

@@ -10,7 +10,7 @@ void fill_2d_array_with_random_numbers(int arr[], int r, int c)
     }
 }
 
-void print_2d_array(int arr[], int r, int c)
+void print_2d_array(const int arr[], int r, int c)
 {
     srand(time(0));
     for (int i = 0; i < r; ++i) {
