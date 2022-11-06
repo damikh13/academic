@@ -40,7 +40,7 @@ int main()
     clock_t end1 = clock();
 
     std::cout << "multiplying normally takes " << (double)(end - start) / CLOCKS_PER_SEC << std::endl;
-    std::cout << "multiplying invertedly it takes " << (double)(end1 - start1) / CLOCKS_PER_SEC << std::endl;
+    std::cout << "multiplying invertedly takes " << (double)(end1 - start1) / CLOCKS_PER_SEC << std::endl;
 
     delete_subarrays(A, A_n);
     delete A;
