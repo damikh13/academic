@@ -2,6 +2,8 @@
 
 #define _used_
 #include <iostream>
+#include <ratio>
+#include <chrono>
 #include <time.h>
 
 typedef unsigned long long size_t;
