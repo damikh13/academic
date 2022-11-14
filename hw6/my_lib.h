@@ -145,3 +145,4 @@ inline std::map<size_t, size_t> get_saddle_elements_positions(matrix_element_typ
 
     return saddle_elements_positions;
 }
+
