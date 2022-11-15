@@ -222,6 +222,7 @@ void switch_two_strings(matrix_element_type** A, size_t A_n, size_t A_m, size_t 
     matrix_element_type** Tmp = new matrix_element_type* [A_n];
     initialize_2d_arr_using_heap(Tmp, A_n, A_m);
 
+    // TODO remember T
     multiply(T, T_n, T_n, A, A_n, A_m, Tmp);
     
     for (size_t curr_row = 0; curr_row < A_n; ++curr_row)
@@ -231,6 +232,12 @@ void switch_two_strings(matrix_element_type** A, size_t A_n, size_t A_m, size_t 
             A[curr_row][curr_col] = Tmp[curr_row][curr_col];
         }
     }
+    destruct_matrix(Tmp, A_n);
+    delete Tmp;
+    
+    // TODO
+    // destruct_matrix(T, T_n);
+    // delete T;
 }
 
 template<typename matrix_element_type>
@@ -248,15 +255,24 @@ inline void make_matrix_triangle(matrix_element_type** A, size_t N)
         }
         else
         {
-            // for (size_t curr_row = main_row + 1; curr_row < N; ++curr_row)
-            // {
-            //     if (A[curr_row][main_row] != 0)
-            //     {
-            //         switch_two_strings(A, N, N, curr_row + 1, main_row + 1);
-            //         // TODO remember T
-            //     }
-            // }
+            for (size_t curr_row = main_row + 1; curr_row < N; ++curr_row)
+            {
+                if (A[curr_row][main_row] != 0)
+                {
+                    switch_two_strings(A, N, N, curr_row + 1, main_row + 1);
+                    // TODO remember T
+                }
+            }
         }
+    }
+}
+
+template<typename matrix_element_type>
+inline void destruct_matrix(matrix_element_type** A, size_t A_n)
+{
+    for (size_t i = 0; i < A_n; ++i)
+    {
+        delete A[i];
     }
 }
 

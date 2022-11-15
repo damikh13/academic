@@ -13,4 +13,7 @@ int main()
 
     make_matrix_triangle(A, A_n);
     print_2d_array(A, A_n, A_n);
+
+    destruct_matrix(A, A_n);
+    delete A;
 }
