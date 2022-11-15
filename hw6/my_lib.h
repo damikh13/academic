@@ -1,6 +1,8 @@
 #include <iostream>
 #include <ctime>
 #include <map>
+#ifndef _used_
+#define _used_
 
 template<typename matrix_element_type>
 inline void print_2d_array(matrix_element_type** arr, size_t N, size_t M, std::map<size_t, size_t> special_elements_coords = {})
@@ -24,7 +26,6 @@ inline void print_2d_array(matrix_element_type** arr, size_t N, size_t M, std::m
 template<typename matrix_element_type>
 inline void initialize_2d_arr_using_heap(matrix_element_type** arr, size_t N, size_t M, bool with_zeros=true)
 {
-    srand(time(0));
     for (size_t i = 0; i < N; ++i)
     {
         if (with_zeros)
@@ -146,3 +147,126 @@ inline std::map<size_t, size_t> get_saddle_elements_positions(matrix_element_typ
     return saddle_elements_positions;
 }
 
+template<typename matrix_element_type>
+inline void combine_two_strings(matrix_element_type** A, size_t A_n, size_t A_m, size_t S_1, size_t S_2, double quotient=1)
+{
+    for (size_t curr_col = 0; curr_col < A_m; ++curr_col)
+    {
+        double delta = 1e-7;
+        A[S_1 - 1][curr_col] += A[S_2 - 1][curr_col] * quotient;
+        if (-delta < A[S_1 - 1][curr_col] && A[S_1 - 1][curr_col] < delta)
+        {
+            A[S_1 - 1][curr_col] = 0;
+        }
+    }
+}
+
+template<typename matrix_element_type>
+inline void combine_matrixes(matrix_element_type** A, matrix_element_type** B, matrix_element_type** result, size_t N, size_t M, bool addition=true)
+{
+    for (size_t i = 0; i < N; ++i)
+    {
+        for (size_t j = 0; j < M; ++j)
+        {
+            result[i][j] = (addition) ? (A[i][j] + B[i][j]) : (A[i][j] - B[i][j]);
+        }
+    }
+}
+
+template<typename matrix_element_type>
+void make_unit_matrix_with_ones_shifted(matrix_element_type** A, size_t N, size_t first_one_to_shift_pos, size_t second_one_to_shift_pos)
+{
+    for (size_t i = 0; i < N; ++i)
+    {
+        if (i != first_one_to_shift_pos && i !=  second_one_to_shift_pos)
+        {
+            A[i][i] = 1;
+        }
+        else
+        {
+            if (i == first_one_to_shift_pos)
+            {
+                A[i][second_one_to_shift_pos] = 1;
+            }
+            else
+            {
+                A[i][first_one_to_shift_pos] = 1;
+            }
+        }
+    }
+}
+
+template<typename matrix_element_type>
+void multiply(matrix_element_type** A, size_t A_n, size_t A_m, matrix_element_type** B, size_t B_n, size_t B_m, matrix_element_type** product, bool invertedly=false)
+{
+    size_t Prod_n = A_n, Prod_m = B_m;
+    for (size_t curr_row = 0; curr_row < Prod_n; ++curr_row)
+    {
+        for (size_t curr_col = 0; curr_col < Prod_m; ++curr_col)
+        {
+            for (size_t inner = 0; inner < A_m; ++inner)
+                if (!invertedly) product[curr_row][curr_col] += A[curr_row][inner] * B[inner][curr_col];
+                else product[curr_row][curr_col] += A[inner][curr_row] * B[inner][curr_col];
+        }
+    }
+}
+
+template<typename matrix_element_type>
+void switch_two_strings(matrix_element_type** A, size_t A_n, size_t A_m, size_t S_1, size_t S_2)
+{
+    size_t T_n = A_n;
+    matrix_element_type** T = new matrix_element_type* [T_n];
+    initialize_2d_arr_using_heap(T, T_n, T_n);
+    make_unit_matrix_with_ones_shifted(T, T_n, S_1 - 1, S_2 - 1);
+
+    matrix_element_type** Tmp = new matrix_element_type* [A_n];
+    initialize_2d_arr_using_heap(Tmp, A_n, A_m);
+
+    multiply(T, T_n, T_n, A, A_n, A_m, Tmp);
+    
+    for (size_t curr_row = 0; curr_row < A_n; ++curr_row)
+    {
+        for (size_t curr_col = 0; curr_col < A_m; ++curr_col)
+        {
+            A[curr_row][curr_col] = Tmp[curr_row][curr_col];
+        }
+    }
+}
+
+template<typename matrix_element_type>
+inline void make_matrix_triangle(matrix_element_type** A, size_t N)
+{
+    for (size_t main_row = 0; main_row < N - 1; ++main_row)
+    {
+        if (A[main_row][main_row] != 0) // upper left corner isnt zero
+        {
+            for (size_t curr_row = main_row + 1; curr_row < N; ++curr_row)
+            {
+                double quotient = A[curr_row][main_row] / A[main_row][main_row];
+                combine_two_strings(A, N, N, curr_row + 1, main_row + 1, -quotient);
+            }
+        }
+        else
+        {
+            // for (size_t curr_row = main_row + 1; curr_row < N; ++curr_row)
+            // {
+            //     if (A[curr_row][main_row] != 0)
+            //     {
+            //         switch_two_strings(A, N, N, curr_row + 1, main_row + 1);
+            //         // TODO remember T
+            //     }
+            // }
+        }
+    }
+}
+
+inline void print_sep(size_t length=40, char ch='-')
+{
+    for (size_t i = 0; i < length; ++i)
+    {
+        std::cout << ch;
+    }
+    std::cout << std::endl;
+}
+
+#endif
